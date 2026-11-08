@@ -8,7 +8,7 @@ class CreateCustomersTable extends Migration
 {
     public function up()
     {
-        
+        // Define customers table fields
         $this->forge->addField([
             'id' => [
                 'type'           => 'INT',
@@ -16,49 +16,80 @@ class CreateCustomersTable extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true,
             ],
+
+            'user_id' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'unsigned'   => true,
+            ],
+
             'name' => [
                 'type'       => 'VARCHAR',
-                'constraint' => '100',
+                'constraint' => 100,
                 'null'       => false,
             ],
+
             'email' => [
                 'type'       => 'VARCHAR',
-                'constraint' => '150',
-                'null'       => false,
-                'unique'     => true,
+                'constraint' => 150,
+                'null'       => true,
             ],
-            'password_hash' => [
+
+            'phone' => [
                 'type'       => 'VARCHAR',
-                'constraint' => '20',
-                'null'       => false,
+                'constraint' => 20,
+                'null'       => true,
             ],
-            'role' => [
+
+            'address' => [
+                'type' => 'TEXT',
+                'null' => true,
+            ],
+
+            'tax_id' => [
                 'type'       => 'VARCHAR',
-                'constraint' => '100',
-                'null'       => false,
+                'constraint' => 50,
+                'null'       => true,
             ],
-            'is_active' => [
-                'type'       => 'ENUM',
-                'constraint' => ['active', 'inactive'],
-                'default'    => 'active',
-            ],
+
             'created_at' => [
                 'type'    => 'TIMESTAMP',
                 'default' => new \CodeIgniter\Database\RawSql('CURRENT_TIMESTAMP'),
             ],
+
             'updated_at' => [
                 'type'    => 'TIMESTAMP',
                 'default' => new \CodeIgniter\Database\RawSql('CURRENT_TIMESTAMP'),
             ],
+
+            'deleted_at' => [
+                'type' => 'DATETIME',
+                'null' => true,
+            ],
         ]);
 
-        
+        // Primary key
         $this->forge->addKey('id', true);
+
+        // Index for user_id
+        $this->forge->addKey('user_id');
+
+        // Foreign key: customers.user_id references users.id
+        $this->forge->addForeignKey(
+            'user_id',
+            'users',
+            'id',
+            'CASCADE',
+            'CASCADE'
+        );
+
+        // Create customers table
         $this->forge->createTable('customers');
     }
 
     public function down()
     {
+        // Drop customers table
         $this->forge->dropTable('customers');
     }
 }

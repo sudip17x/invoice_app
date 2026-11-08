@@ -29,7 +29,7 @@ class CreateUsersTable extends Migration
             ],
             'password_hash' => [
                 'type'       => 'VARCHAR',
-                'constraint' => '20',
+                'constraint' => '255',
                 'null'       => false,
             ],
             'role' => [
@@ -48,7 +48,7 @@ class CreateUsersTable extends Migration
             ],
             'updated_at' => [
                 'type'    => 'TIMESTAMP',
-                'default' => new \CodeIgniter\Database\RawSql('CURRENT_TIMESTAMP'),
+                'default' => new \CodeIgniter\Database\RawSql('CURRENT_TIMESTAMP'),              
             ],
         ]);
 
